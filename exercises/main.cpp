@@ -2,13 +2,14 @@
 #include <iostream>
 #include <functional>
 
-auto foo(std::function<int()> fptr) {
-    auto result = fptr();
-    return result;
-}
+  constexpr auto add = [](int n, int m) {
+    auto L = [=] { return n; };
+    auto R = [=] { return m; };
+    return [=] { return L() + R(); };
+};
+
 
 int main() {
-    int value = 5;
-    std::cout << foo([value] { return value; });
-    return 0;
+
+static_assert(add(3, 4)() == 7);
 }
