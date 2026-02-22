@@ -16,7 +16,17 @@ jobs:
       working-directory: ${{ env.path }}
       run: |
         cmake ..
-        make
+        make schedule-ut
     - name: Run tests
       working-directory: ${{ env.path }}
-      run: ctest -V
+      run: ./schedule-ut
+
+  formatting-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run clang-format style check
+      uses: coders-school/github-actions/clang-format-check@main
+      with:
+        check_path: homework/schedule
+        exclude_dir: 'homework/schedule/tests/catch'
